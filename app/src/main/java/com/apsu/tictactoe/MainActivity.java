@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // based on what the user presses.
 
         if (view.getId() == R.id.play_game1) {
-            Log.i("PRESSED", "Game 1");
-            //Start new Activity
+            Intent intent = new Intent(getApplicationContext(), GameBoard.class);
+            startActivity(intent);
         } else if (view.getId() == R.id.play_game2) {
             Log.i("PRESSED", "Game 2");
             //Start new Activity
