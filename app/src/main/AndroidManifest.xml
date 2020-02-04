@@ -17,6 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".GameBoard" />
+        <activity android:name=".Notakto" />
+        <activity android:name=".Wild" />
+        <activity android:name=".Numerical"/>
     </application>
 
 </manifest>
