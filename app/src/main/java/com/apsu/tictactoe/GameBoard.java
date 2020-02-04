@@ -1,16 +1,24 @@
 package com.apsu.tictactoe;
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+public class GameBoard extends AppCompatActivity implements View.OnClickListener {
+    ImageButton[][] ibs;
+
+    GameBoard() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                ibs[i][j] = new ImageButton(this);
+            }
+        }
+    }
+
+/*
 public class GameBoard extends AppCompatActivity implements View.OnClickListener {
 
     ImageButton[][] ib;
@@ -81,27 +89,29 @@ public class GameBoard extends AppCompatActivity implements View.OnClickListener
         }
     }
 
+ */
+
     @SuppressLint("ResourceType")
     @Override
     public void onClick(View view) {
         if (view.getId() == 0) {
-            Log.i("ID", Integer.toString(ib[0][0].getId()));
+            Log.i("ID", Integer.toString(ibs[0][0].getId()));
         } else if (view.getId() == 1) {
-            Log.i("ID", Integer.toString(ib[0][1].getId()));
+            Log.i("ID", Integer.toString(ibs[0][1].getId()));
         } else if (view.getId() == 2) {
-            Log.i("ID", Integer.toString(ib[0][2].getId()));
+            Log.i("ID", Integer.toString(ibs[0][2].getId()));
         } else if (view.getId() == 3) {
-            Log.i("ID", Integer.toString(ib[1][0].getId()));
+            Log.i("ID", Integer.toString(ibs[1][0].getId()));
         } else if (view.getId() == 4) {
-            Log.i("ID", Integer.toString(ib[1][1].getId()));
+            Log.i("ID", Integer.toString(ibs[1][1].getId()));
         } else if (view.getId() == 5) {
-            Log.i("ID", Integer.toString(ib[1][2].getId()));
+            Log.i("ID", Integer.toString(ibs[1][2].getId()));
         } else if (view.getId() == 6) {
-            Log.i("ID", Integer.toString(ib[2][0].getId()));
+            Log.i("ID", Integer.toString(ibs[2][0].getId()));
         } else if (view.getId() == 7) {
-            Log.i("ID", Integer.toString(ib[2][1].getId()));
+            Log.i("ID", Integer.toString(ibs[2][1].getId()));
         } else if (view.getId() == 8) {
-            Log.i("ID", Integer.toString(ib[2][2].getId()));
+            Log.i("ID", Integer.toString(ibs[2][2].getId()));
         }
     }
 }
