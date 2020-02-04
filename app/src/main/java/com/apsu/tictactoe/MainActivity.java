@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // based on what the user presses.
 
         if (view.getId() == R.id.play_game1) {
-            Intent intent = new Intent(getApplicationContext(), GameBoard.class);
+            Intent intent = new Intent(getApplicationContext(), Wild.class);
             startActivity(intent);
         } else if (view.getId() == R.id.play_game2) {
             Log.i("PRESSED", "Game 2");
