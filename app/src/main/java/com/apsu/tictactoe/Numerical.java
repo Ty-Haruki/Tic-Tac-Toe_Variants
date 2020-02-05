@@ -3,6 +3,7 @@ package com.apsu.tictactoe;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class Numerical extends AppCompatActivity {
 
@@ -14,8 +15,9 @@ public class Numerical extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        GameBoard gameBoard = new GameBoard(this);
+        setContentView(R.layout.activity_main);
+        ConstraintLayout layout = findViewById(R.id.main_layout);
+        GameBoard gameBoard = new GameBoard(this, layout);
 
     }
 
