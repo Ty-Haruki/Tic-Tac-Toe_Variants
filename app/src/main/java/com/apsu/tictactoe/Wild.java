@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,20 +23,26 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
     // 0 = blank, 1 = X, 2 = O
 
     // variable to know who the current player's turn is
-    private int currentPlayer = 1;
+    private boolean player1; // true for player 1 turn, false for player 2 turn
     private GameBoard gameBoard;
-    private CompoundButton xSwitch;
-    private CompoundButton oSwitch;
+    private CompoundButton xSwitch; // switch for x button
+    private CompoundButton oSwitch; // switch for o button
+    private boolean gameComplete;
+    private TextView playerDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wild_layout);
-        currentPlayer = 1;
+        player1 = true;
         RelativeLayout layout = findViewById(R.id.wildLayout);
         gameBoard = new GameBoard(this, layout);
         xSwitch = findViewById(R.id.wildXSwitch);
         oSwitch = findViewById(R.id.wildOSwitch);
+        xSwitch.setOnCheckedChangeListener(this);
+        oSwitch.setOnCheckedChangeListener(this);
+        gameComplete = false;
+        playerDisplay = findViewById(R.id.wildPlayerTurn);
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
                 gameBoard.setImageResource(i, j, R.drawable.blank);
@@ -51,7 +58,6 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
             1. Check if there are 3 O's or 3 X's in each row, col, or diagonal
             2. If condition is true, return true otherwise, return false.
          */
-        int count = 0;
         if(checkForRow(R.drawable.circle) || checkForRow(R.drawable.x)){
             return true;
         }
@@ -157,18 +163,59 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
             else if(oSwitch.isChecked()){
                 ((ImageButton)view).setImageResource(R.drawable.circle);
             }
+            gameComplete = checkWinCondition();
+
+            if(gameComplete){
+                lockBoard();
+                if(player1){
+                    playerDisplay.setText("Player 1 wins!");
+                }
+
+                else{
+                    playerDisplay.setText("Player 2 wins!");
+                }
+
+            }
+            else{
+                player1 = !player1;
+                if(player1){
+                    playerDisplay.setText("Player 1 turn");
+                }
+                else{
+                    playerDisplay.setText("Player 2 turn");
+                }
+            }
+
         }
         else{
             Toast.makeText(getApplicationContext(), "Position Already Selected", Toast.LENGTH_SHORT).show();
         }
 
-        if(checkWinCondition()){
-            // lock board, display winner.
+        if(checkIfDraw()){
+            gameComplete = true;
+            lockBoard();
+            playerDisplay.setText("Draw!");
         }
-        else{
-            // swap player and display
+    }
+
+    private boolean checkIfDraw(){
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(gameBoard.getImageButtonArray()[i][j].getDrawable() == getDrawable(R.drawable.blank)){
+                    return false;
+                }
+            }
         }
 
+        return true;
+    }
+
+    private void lockBoard(){
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
+            }
+        }
     }
 
     @Override
