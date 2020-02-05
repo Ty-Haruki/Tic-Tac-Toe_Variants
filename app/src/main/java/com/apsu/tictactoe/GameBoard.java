@@ -12,11 +12,7 @@ public class GameBoard {
     private int ibid = 0;
 
     GameBoard(Context context, ConstraintLayout layout) {
-        GridLayout gridLayout = new GridLayout(context);
-        GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
-        layoutParams.setGravity(Gravity.CENTER);
-        layoutParams.rowSpec = GridLayout.spec(0, 3);
-        layoutParams.columnSpec = GridLayout.spec(0, 3);
+        GridLayout gridLayout = getLayout(context);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 ibs[i][j] = new ImageButton(context);
@@ -28,11 +24,20 @@ public class GameBoard {
         layout.addView(gridLayout);
     }
 
-    ImageButton[][] getImageButtonArray() {
+    private GridLayout getLayout(Context context) {
+        GridLayout gridLayout = new GridLayout(context);
+        GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+        layoutParams.setGravity(Gravity.CENTER);
+        layoutParams.rowSpec = GridLayout.spec(0, 3);
+        layoutParams.columnSpec = GridLayout.spec(0, 3);
+        return gridLayout;
+    }
+
+    public ImageButton[][] getImageButtonArray() {
         return ibs;
     }
 
-    void setImageResource(int x, int y, int imageResource) {
+    public void setImageResource(int x, int y, int imageResource) {
         ibs[x][y].setImageResource(imageResource);
     }
 }

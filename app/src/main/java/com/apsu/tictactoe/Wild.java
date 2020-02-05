@@ -24,9 +24,10 @@ public class Wild extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.wild_layout);
         currentPlayer = 1;
-        ConstraintLayout wildLayout = findViewById(R.id.wildLayout);
-        gameBoard = new GameBoard(this, wildLayout);
+        ConstraintLayout layout = findViewById(R.id.wild_layout);
+        gameBoard = new GameBoard(this, layout);
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
                 gameBoard.setImageResource(i, j, R.drawable.blank);
