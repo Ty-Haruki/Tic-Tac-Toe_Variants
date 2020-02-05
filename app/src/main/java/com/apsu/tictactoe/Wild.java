@@ -1,5 +1,6 @@
 package com.apsu.tictactoe;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 
@@ -26,6 +27,11 @@ public class Wild extends AppCompatActivity implements View.OnClickListener {
         currentPlayer = 1;
         ConstraintLayout wildLayout = findViewById(R.id.wildLayout);
         gameBoard = new GameBoard(this, wildLayout);
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                gameBoard.setImageResource(i, j, R.drawable.blank);
+            }
+        }
 
     }
 
@@ -36,32 +42,39 @@ public class Wild extends AppCompatActivity implements View.OnClickListener {
             2. If condition is true, return true otherwise, return false.
          */
         int count = 0;
-        for(int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-
-            }
+        if(checkForRow(R.drawable.circle) || checkForRow(R.drawable.x)){
+            return true;
         }
 
         return false;
     }
 
-    private boolean checkForX(){
+    private boolean checkForRow(int draw){
         String x = "x";
         String o = "o";
 
         int count = 0;
+
+        // for O's
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
-
+                if(gameBoard.getImageButtonArray()[i][j].getDrawable().equals(draw)){
+                    count++;
+                }
+            }
+            if(count >= 3){
+                return true;
+            }
+            else{
+                count = 0;
             }
         }
-
 
         return false;
     }
 
 
-    private boolean checkForO(){
+    private boolean checkForCol(){
 
         return false;
     }
