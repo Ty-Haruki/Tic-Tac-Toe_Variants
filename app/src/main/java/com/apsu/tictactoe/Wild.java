@@ -20,7 +20,7 @@ public class Wild extends AppCompatActivity implements View.OnClickListener {
 
     // variable to know who the current player's turn is
     private int currentPlayer;
-    GameBoard gameBoard;
+    private GameBoard gameBoard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +40,17 @@ public class Wild extends AppCompatActivity implements View.OnClickListener {
     // Checks if win condition will be met.
     public boolean checkWinCondition(){
         /*
-            1. Check if there are 3 O's or 3 X's in a row
+            1. Check if there are 3 O's or 3 X's in each row, col, or diagonal
             2. If condition is true, return true otherwise, return false.
          */
         int count = 0;
         if(checkForRow(R.drawable.circle) || checkForRow(R.drawable.x)){
+            return true;
+        }
+        else if(checkForCol(R.drawable.circle) || checkForCol(R.drawable.x)){
+            return true;
+        }
+        else if(checkForDiag(R.drawable.circle) || checkForDiag((R.drawable.x))){
             return true;
         }
 
@@ -52,15 +58,11 @@ public class Wild extends AppCompatActivity implements View.OnClickListener {
     }
 
     private boolean checkForRow(int draw){
-        String x = "x";
-        String o = "o";
-
         int count = 0;
 
-        // for O's
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
-                if(gameBoard.getImageButtonArray()[i][j].getDrawable().equals(draw)){
+                if(gameBoard.getImageButtonArray()[i][j].getDrawable()== getDrawable(draw)){
                     count++;
                 }
             }
@@ -75,8 +77,53 @@ public class Wild extends AppCompatActivity implements View.OnClickListener {
         return false;
     }
 
+    private boolean checkForCol(int draw){
+        int count = 0;
 
-    private boolean checkForCol(){
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(gameBoard.getImageButtonArray()[i][j].getDrawable()== getDrawable(draw)){
+                    count++;
+                }
+            }
+            if(count >= 3){
+                return true;
+            }
+            else{
+                count = 0;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean checkForDiag(int draw){
+        int count = 0;
+
+        // left right diag check
+        for(int i = 0; i < 3; i++){
+            if(gameBoard.getImageButtonArray()[i][i].getDrawable()== getDrawable(draw)){
+                count++;
+            }
+        }
+        if(count >= 3){
+            return true;
+        }
+        else{
+            count = 0;
+        }
+
+        // right left diag check
+        int j = 2;
+        for(int i = 0; i < 3; i++){
+            if(gameBoard.getImageButtonArray()[i][j].getDrawable()== getDrawable(draw)){
+                count++;
+            }
+            j--;
+        }
+        if(count >= 3){
+            return true;
+        }
 
         return false;
     }
