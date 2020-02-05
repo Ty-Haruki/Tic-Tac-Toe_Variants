@@ -3,12 +3,15 @@ package com.apsu.tictactoe;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-public class Wild extends AppCompatActivity implements View.OnClickListener {
+public class Wild extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     /* Win Condition
         1. Both players plays O's and X's.
@@ -19,19 +22,24 @@ public class Wild extends AppCompatActivity implements View.OnClickListener {
     // 0 = blank, 1 = X, 2 = O
 
     // variable to know who the current player's turn is
-    private int currentPlayer;
+    private int currentPlayer = 1;
     private GameBoard gameBoard;
+    private CompoundButton xSwitch;
+    private CompoundButton oSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wild_layout);
         currentPlayer = 1;
-        RelativeLayout layout = findViewById(R.id.wild_layout);
+        RelativeLayout layout = findViewById(R.id.wildLayout);
         gameBoard = new GameBoard(this, layout);
+        xSwitch = findViewById(R.id.wildXSwitch);
+        oSwitch = findViewById(R.id.wildOSwitch);
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
                 gameBoard.setImageResource(i, j, R.drawable.blank);
+                gameBoard.getImageButtonArray()[i][j].setOnClickListener(this);
             }
         }
 
@@ -139,7 +147,37 @@ public class Wild extends AppCompatActivity implements View.OnClickListener {
                 2. If false, check to see if board is complete.
                     1. if false, change turns.
                     2. if true, display draw as the win.
+         3. if not blank, give toast saying that position has already been taken.
          */
+        ImageButton button = (ImageButton) view;
+        if(button.getDrawable() == getDrawable(R.drawable.blank)){
+            if(xSwitch.isChecked()){
+                ((ImageButton)view).setImageResource(R.drawable.x);
+            }
+            else if(oSwitch.isChecked()){
+                ((ImageButton)view).setImageResource(R.drawable.circle);
+            }
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Position Already Selected", Toast.LENGTH_SHORT).show();
+        }
 
+        if(checkWinCondition()){
+            // lock board, display winner.
+        }
+        else{
+            // swap player and display
+        }
+
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if(compoundButton == xSwitch){
+            oSwitch.setChecked(!b);
+        }
+        if(compoundButton == oSwitch){
+            xSwitch.setChecked(!b);
+        }
     }
 }
