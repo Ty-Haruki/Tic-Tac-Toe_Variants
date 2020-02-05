@@ -15,6 +15,8 @@ public class Numerical extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        GameBoard gameBoard = new GameBoard(this);
+
     }
 
     // Checks if win condition will be met.
