@@ -2,6 +2,7 @@ package com.apsu.tictactoe;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -19,7 +20,7 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.numerical_layout);
-        ConstraintLayout layout = findViewById(R.id.numerical_layout);
+        RelativeLayout layout = findViewById(R.id.numerical_layout);
         gameBoard = new GameBoard(this, layout);
     }
 

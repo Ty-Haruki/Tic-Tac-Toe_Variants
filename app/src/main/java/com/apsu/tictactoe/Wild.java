@@ -3,6 +3,7 @@ package com.apsu.tictactoe;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -26,7 +27,7 @@ public class Wild extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wild_layout);
         currentPlayer = 1;
-        ConstraintLayout layout = findViewById(R.id.wild_layout);
+        RelativeLayout layout = findViewById(R.id.wild_layout);
         gameBoard = new GameBoard(this, layout);
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){

@@ -2,41 +2,60 @@ package com.apsu.tictactoe;
 
 import android.content.Context;
 import android.view.Gravity;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class GameBoard {
+    // Create 2D array of ImageButtons
     private ImageButton[][] ibs = new ImageButton[3][3];
     private int ibid = 0;
 
-    GameBoard(Context context, ConstraintLayout layout) {
-        GridLayout gridLayout = getLayout(context);
+    // Must pass in context from mainActivity
+    GameBoard(Context context, RelativeLayout layout) {
+        // Create LinearLayout for Columns
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        ));
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
         for (int i = 0; i < 3; i++) {
+            // Create LinearLayout for Rows
+            LinearLayout row = new LinearLayout(context);
+            row.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            ));
+            row.setGravity(Gravity.CENTER);
+            row.setPadding(0, 0, 0, 0);
+
             for (int j = 0; j < 3; j++) {
+                // Generate 3x3 ImageButtons
                 ibs[i][j] = new ImageButton(context);
                 ibs[i][j].setBackgroundResource(R.drawable.square);
+                ibs[i][j].setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                ));
                 ibs[i][j].setId(ibid);
-                gridLayout.addView(ibs[i][j]);
+
+                // Add Buttons to Row
+                row.addView(ibs[i][j]);
             }
+            // Add Rows to Columns
+            linearLayout.addView(row);
         }
-        layout.addView(gridLayout);
+        // Add Grid to Original Layout
+        layout.addView(linearLayout);
     }
 
-    private GridLayout getLayout(Context context) {
-        GridLayout gridLayout = new GridLayout(context);
-        GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
-        layoutParams.setGravity(Gravity.CENTER);
-        layoutParams.rowSpec = GridLayout.spec(0, 3);
-        layoutParams.columnSpec = GridLayout.spec(0, 3);
-        return gridLayout;
-    }
-
+    // Returns the entire ibs array
     public ImageButton[][] getImageButtonArray() {
         return ibs;
     }
 
+    // Sets the imageResource for each ImageButton
     public void setImageResource(int x, int y, int imageResource) {
         ibs[x][y].setImageResource(imageResource);
     }
