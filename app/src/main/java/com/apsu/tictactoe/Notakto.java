@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Notakto extends AppCompatActivity implements View.OnClickListener  {
 
+    GameBoard gameBoard;
+
+
     /* Win condition
         1. Once all boards are completed, last player to play loses the game.
      */
@@ -18,21 +21,12 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ImageButton button = new ImageButton(this);
+        setContentView(R.layout.notakto_layout);
+        LinearLayout layout = findViewById(R.id.notakto_layout);
 
-
-
-/*
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-        ));
-        layout.setGravity(Gravity.CENTER);
-
-        GameBoard board = new GameBoard();
-*/
+        for (int i = 0; i < 50; i++) {
+            gameBoard = new GameBoard(this, layout);
+        }
 
 
     }

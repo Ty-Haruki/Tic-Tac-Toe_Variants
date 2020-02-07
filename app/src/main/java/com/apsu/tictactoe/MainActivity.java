@@ -49,8 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(getApplicationContext(), Wild.class);
             startActivity(intent);
         } else if (view.getId() == R.id.play_game3) {
-            Log.i("PRESSED", "Game 3");
-            //Start new Activity
+            // Start Wild Game
+            Intent intent = new Intent(getApplicationContext(), Notakto.class);
+            startActivity(intent);
         } else if (view.getId() == R.id.info_game1) {
             // Create Dialog for Game Information
             infoDialog("Game 1", R.string.game1_info);

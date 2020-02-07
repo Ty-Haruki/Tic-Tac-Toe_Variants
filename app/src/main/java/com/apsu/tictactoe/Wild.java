@@ -39,7 +39,7 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
         oSwitch = findViewById(R.id.wildOSwitch);
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
-                gameBoard.setDrawable(i, j, R.drawable.blank);
+                //gameBoard.setDrawable(i, j, R.drawable.blank);
                 gameBoard.getImageButtonArray()[i][j].setOnClickListener(this);
             }
         }
