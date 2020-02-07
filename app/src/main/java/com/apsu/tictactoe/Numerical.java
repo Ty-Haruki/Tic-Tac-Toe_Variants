@@ -2,6 +2,7 @@ package com.apsu.tictactoe;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 public class Numerical extends AppCompatActivity implements View.OnClickListener {
 
     GameBoard gameBoard;
+    GameBoard gameBoard1;
+    GameBoard gameBoard2;
 
     /* Win Condition
         1. Player 1 plays odd numbers, Player 2 plays even numbers (numbers 1-9). Each number can only be played once.
@@ -20,8 +23,10 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.numerical_layout);
-        RelativeLayout layout = findViewById(R.id.numerical_layout);
+        LinearLayout layout = findViewById(R.id.numerical_layout);
         gameBoard = new GameBoard(this, layout);
+        gameBoard1 = new GameBoard(this, layout);
+        gameBoard2 = new GameBoard(this, layout);
     }
 
     // Checks if win condition will be met.

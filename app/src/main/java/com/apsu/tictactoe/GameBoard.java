@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 public class GameBoard {
     // Create 2D array of ImageButtons
@@ -13,14 +12,16 @@ public class GameBoard {
     private int ibid = 0;
 
     // Must pass in context from mainActivity
-    GameBoard(Context context, RelativeLayout layout) {
+    GameBoard(Context context, LinearLayout layout) {
         // Create LinearLayout for Columns
         LinearLayout linearLayout = new LinearLayout(context);
-        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT
-        ));
+        );
+        layoutParams.setMargins(10,10,10,10);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
+
         for (int i = 0; i < 3; i++) {
             // Create LinearLayout for Rows
             LinearLayout row = new LinearLayout(context);
@@ -48,7 +49,7 @@ public class GameBoard {
             linearLayout.addView(row);
         }
         // Add Grid to Original Layout
-        layout.addView(linearLayout);
+        layout.addView(linearLayout, layoutParams);
     }
 
     // Returns the entire ibs array

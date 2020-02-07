@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -32,13 +33,13 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wild_layout);
         currentPlayer = 1;
-        RelativeLayout layout = findViewById(R.id.wildLayout);
+        LinearLayout layout = findViewById(R.id.wild_layout);
         gameBoard = new GameBoard(this, layout);
         xSwitch = findViewById(R.id.wildXSwitch);
         oSwitch = findViewById(R.id.wildOSwitch);
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
-                gameBoard.setImageResource(i, j, R.drawable.blank);
+                gameBoard.setDrawable(i, j, R.drawable.blank);
                 gameBoard.getImageButtonArray()[i][j].setOnClickListener(this);
             }
         }
