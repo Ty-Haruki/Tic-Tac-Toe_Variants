@@ -1,6 +1,7 @@
 package com.apsu.tictactoe;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -56,7 +57,7 @@ public class GameBoard {
     }
 
     // Sets the imageResource for each ImageButton
-    public void setImageResource(int x, int y, int imageResource) {
-        ibs[x][y].setImageResource(imageResource);
+    public void setDrawable(int x, int y, Drawable imageResource) {
+        ibs[x][y].setImageDrawable(imageResource);
     }
 }
