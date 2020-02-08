@@ -14,9 +14,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.Spinner;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    int no_of_gameboards;
+    int choice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +55,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(getApplicationContext(), Wild.class);
             startActivity(intent);
         } else if (view.getId() == R.id.play_game3) {
-            Log.i("PRESSED", "Game 3");
-            //Start new Activity
+
+            // Create AlertDialog to get no_of_gameboards
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Number of Boards");
+            builder.setSingleChoiceItems(R.array.no_of_boards, choice, null);
+
+            // Setup builder for closing and saving data
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int choice) {
+                    // Get Selected Item
+                    ListView listView = ((AlertDialog)dialog).getListView();
+                    Object checkedItem = listView.getAdapter().getItem(
+                            listView.getCheckedItemPosition()
+                    );
+
+                    no_of_gameboards = Integer.valueOf((String)checkedItem);
+
+                    // Start Notakto Game and pass in no_of_gameboards
+                    Intent intent = new Intent(getApplicationContext(), Notakto.class);
+                    intent.putExtra("NO_OF_GAMEBOARDS", no_of_gameboards);
+                    startActivity(intent);
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
         } else if (view.getId() == R.id.info_game1) {
             // Create Dialog for Game Information
             infoDialog("Game 1", R.string.game1_info);
@@ -65,10 +96,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void infoDialog(String s, int string_id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
         // Alert Dialog Message
         builder.setMessage(string_id);
+
         // Alert Dialog Title
         builder.setTitle(s);
+
         // Close Button
         builder.setPositiveButton("CLOSE", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
