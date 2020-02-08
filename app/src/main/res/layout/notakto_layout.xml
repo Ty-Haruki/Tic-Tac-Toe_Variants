@@ -9,6 +9,7 @@
     tools:context=".Notakto">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -22,6 +23,21 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Notakto"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/current_player"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Player 1's Turn"
+                android:textSize="20sp" />
         </LinearLayout>
     </ScrollView>
 
