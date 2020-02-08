@@ -3,4 +3,16 @@
     <string name="game1_info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et molestie ac feugiat sed lectus vestibulum mattis. Pulvinar neque laoreet suspendisse interdum. Et netus et malesuada fames ac turpis egestas sed. Amet consectetur adipiscing elit pellentesque habitant morbi. Ac tincidunt vitae semper quis lectus nulla at. Orci nulla pellentesque dignissim enim sit amet venenatis. Venenatis tellus in metus vulputate eu scelerisque felis. Non arcu risus quis varius quam quisque id diam. Libero enim sed faucibus turpis in eu. Augue lacus viverra vitae congue eu consequat ac felis. Eget aliquet nibh praesent tristique magna sit amet purus gravida. A arcu cursus vitae congue mauris rhoncus aenean vel elit. Enim ut sem viverra aliquet eget sit amet. Tincidunt nunc pulvinar sapien et ligula ullamcorper malesuada. Suspendisse interdum consectetur libero id faucibus.</string>
     <string name="game2_info">Dictum varius duis at consectetur lorem. Dictum sit amet justo donec enim diam vulputate. Congue nisi vitae suscipit tellus mauris a diam maecenas. Ullamcorper a lacus vestibulum sed arcu. Ut aliquam purus sit amet. Pellentesque elit eget gravida cum sociis natoque penatibus et magnis. Dolor magna eget est lorem ipsum dolor sit. Est ullamcorper eget nulla facilisi etiam dignissim. Euismod elementum nisi quis eleifend quam adipiscing vitae proin. Dui vivamus arcu felis bibendum ut tristique. Felis donec et odio pellentesque diam volutpat commodo. Ullamcorper velit sed ullamcorper morbi tincidunt ornare massa eget. Elementum curabitur vitae nunc sed velit. Adipiscing vitae proin sagittis nisl. Non pulvinar neque laoreet suspendisse interdum. Vel turpis nunc eget lorem dolor sed.</string>
     <string name="game3_info">Nunc eget lorem dolor sed viverra ipsum. Aliquet sagittis id consectetur purus ut faucibus pulvinar. At augue eget arcu dictum varius duis. Purus in massa tempor nec feugiat nisl pretium fusce. Nec sagittis aliquam malesuada bibendum arcu vitae elementum. Leo vel orci porta non. Cras ornare arcu dui vivamus. Enim nec dui nunc mattis enim. Purus faucibus ornare suspendisse sed nisi. Tincidunt ornare massa eget egestas purus viverra. Luctus accumsan tortor posuere ac ut consequat. Cras ornare arcu dui vivamus arcu felis bibendum. Senectus et netus et malesuada fames ac turpis. Non tellus orci ac auctor augue mauris augue neque.</string>
+    <string-array name="no_of_boards">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
 </resources>

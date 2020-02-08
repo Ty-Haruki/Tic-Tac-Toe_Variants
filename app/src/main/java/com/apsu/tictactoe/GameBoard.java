@@ -19,7 +19,7 @@ public class GameBoard {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT
         );
-        layoutParams.setMargins(10,10,10,10);
+        layoutParams.setMargins(15,15,15,15);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
         for (int i = 0; i < 3; i++) {
@@ -40,6 +40,8 @@ public class GameBoard {
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
                 ));
+                ibs[i][j].getLayoutParams().height = 150;
+                ibs[i][j].getLayoutParams().width = 150;
                 ibs[i][j].setId(ibid);
 
                 // Add Buttons to Row

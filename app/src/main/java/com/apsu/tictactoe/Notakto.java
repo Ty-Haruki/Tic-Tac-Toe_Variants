@@ -1,5 +1,6 @@
 package com.apsu.tictactoe;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -20,11 +21,14 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Get no_of_gameboards from intent
+        Intent intent = getIntent();
+        int no_of_gameboards = intent.getIntExtra("NO_OF_GAMEBOARDS", 1);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notakto_layout);
         LinearLayout layout = findViewById(R.id.notakto_layout);
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < no_of_gameboards; i++) {
             gameBoard = new GameBoard(this, layout);
         }
 
