@@ -4,13 +4,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.util.ArrayList;
+
 public class Numerical extends AppCompatActivity implements View.OnClickListener {
 
-    GameBoard gameBoard;
+    private GameBoard gameBoard;
+    private TextView playerTurn;
+    private String tag;
+    private boolean player1;
+    private ArrayList<String> number = new ArrayList<>();
 
     /* Win Condition
         1. Player 1 plays odd numbers, Player 2 plays even numbers (numbers 1-9). Each number can only be played once.
@@ -23,6 +30,19 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.numerical_layout);
         LinearLayout layout = findViewById(R.id.numerical_layout);
         gameBoard = new GameBoard(this, layout);
+        playerTurn = findViewById(R.id.numPlayerTurn);
+        for(int i = 1; i <= 9; i++){
+            number.add(Integer.toString(i));
+        }
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                gameBoard.setDrawable(i, j, getDrawable(R.drawable.blank));
+                gameBoard.getImageButtonArray()[i][j].setTag("0");
+                gameBoard.getImageButtonArray()[i][j].setOnClickListener(this);
+            }
+        }
+        tag = "1";
+        player1 = true;
     }
 
     // Checks if win condition will be met.
@@ -37,6 +57,31 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
 
         return false;
     }
+
+    public boolean canBePlaced(String tag){
+        for(int i = 0; i < number.size(); i++){
+            if(number.get(i).equals(tag)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removeNum(String tag){
+        for(int i = 0; i < number.size(); i++){
+            if(number.get(i).equals(tag)) {
+                number.remove(tag);
+            }
+        }
+    }
+
+    public boolean checkLength(){
+        if(number.size() == 0){
+            return true;
+        }
+        return false;
+    }
+
 
     @Override
     public void onClick(View v) {

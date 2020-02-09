@@ -10,11 +10,12 @@
 
     <LinearLayout
         android:id="@+id/wild_layout"
-        android:layout_width="412dp"
-        android:layout_height="196dp"
+        android:layout_width="421dp"
+        android:layout_height="351dp"
+        android:layout_marginTop="204dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
