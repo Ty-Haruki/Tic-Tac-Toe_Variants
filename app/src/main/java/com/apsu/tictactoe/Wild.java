@@ -2,11 +2,13 @@ package com.apsu.tictactoe;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,23 +25,28 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
     // 0 = blank, 1 = X, 2 = O
 
     // variable to know who the current player's turn is
-    private int currentPlayer = 1;
+    private boolean player1;
     private GameBoard gameBoard;
     private CompoundButton xSwitch;
     private CompoundButton oSwitch;
+    private TextView playerTurn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wild_layout);
-        currentPlayer = 1;
+        player1 = true;
         LinearLayout layout = findViewById(R.id.wild_layout);
         gameBoard = new GameBoard(this, layout);
         xSwitch = findViewById(R.id.wildXSwitch);
+        xSwitch.setOnCheckedChangeListener(this);
         oSwitch = findViewById(R.id.wildOSwitch);
+        oSwitch.setOnCheckedChangeListener(this);
+        playerTurn = findViewById(R.id.wildPlayerTurn);
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
-                //gameBoard.setDrawable(i, j, R.drawable.blank);
+                gameBoard.setDrawable(i, j, getDrawable(R.drawable.blank));
+                gameBoard.getImageButtonArray()[i][j].setTag("0");
                 gameBoard.getImageButtonArray()[i][j].setOnClickListener(this);
             }
         }
@@ -53,25 +60,25 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
             2. If condition is true, return true otherwise, return false.
          */
         int count = 0;
-        if(checkForRow(R.drawable.circle) || checkForRow(R.drawable.x)){
+        if(checkForRow("1") || checkForRow("2")){
             return true;
         }
-        else if(checkForCol(R.drawable.circle) || checkForCol(R.drawable.x)){
+        else if(checkForCol("1") || checkForCol("2")){
             return true;
         }
-        else if(checkForDiag(R.drawable.circle) || checkForDiag((R.drawable.x))){
+        else if(checkForDiag("1") || checkForDiag(("2"))){
             return true;
         }
 
         return false;
     }
 
-    private boolean checkForRow(int draw){
+    private boolean checkForRow(String tag){
         int count = 0;
 
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
-                if(gameBoard.getImageButtonArray()[i][j].getDrawable()== getDrawable(draw)){
+                if(gameBoard.getImageButtonArray()[i][j].getTag().equals(tag)){
                     count++;
                 }
             }
@@ -86,12 +93,12 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
         return false;
     }
 
-    private boolean checkForCol(int draw){
+    private boolean checkForCol(String tag){
         int count = 0;
 
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
-                if(gameBoard.getImageButtonArray()[i][j].getDrawable()== getDrawable(draw)){
+                if(gameBoard.getImageButtonArray()[i][j].getTag().equals(tag)){
                     count++;
                 }
             }
@@ -106,12 +113,12 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
         return false;
     }
 
-    private boolean checkForDiag(int draw){
+    private boolean checkForDiag(String tag){
         int count = 0;
 
         // left right diag check
         for(int i = 0; i < 3; i++){
-            if(gameBoard.getImageButtonArray()[i][i].getDrawable()== getDrawable(draw)){
+            if(gameBoard.getImageButtonArray()[i][i].getTag().equals(tag)){
                 count++;
             }
         }
@@ -125,7 +132,7 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
         // right left diag check
         int j = 2;
         for(int i = 0; i < 3; i++){
-            if(gameBoard.getImageButtonArray()[i][j].getDrawable()== getDrawable(draw)){
+            if(gameBoard.getImageButtonArray()[i][j].getTag().equals(tag)){
                 count++;
             }
             j--;
@@ -151,12 +158,14 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
          3. if not blank, give toast saying that position has already been taken.
          */
         ImageButton button = (ImageButton) view;
-        if(button.getDrawable() == getDrawable(R.drawable.blank)){
+        if(button.getTag().equals("0")){
             if(xSwitch.isChecked()){
                 ((ImageButton)view).setImageResource(R.drawable.x);
+                button.setTag("1");
             }
             else if(oSwitch.isChecked()){
                 ((ImageButton)view).setImageResource(R.drawable.circle);
+                button.setTag("2");
             }
         }
         else{
@@ -164,10 +173,26 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
         }
 
         if(checkWinCondition()){
-            // lock board, display winner.
+            for(int i = 0; i < 3; i++){
+                for(int j = 0; j < 3; j++){
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
+                }
+            }
+            if(player1) {
+                playerTurn.setText("Player 1 Wins");
+            }
+            else{
+                playerTurn.setText("Player 2 Wins");
+            }
         }
         else{
-            // swap player and display
+            player1 = !player1;
+            if(player1) {
+                playerTurn.setText("Player 1 Turn");
+            }
+            else{
+                playerTurn.setText("Player 2 Turn");
+            }
         }
 
     }
