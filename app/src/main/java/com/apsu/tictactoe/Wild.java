@@ -146,17 +146,6 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
 
     @Override
     public void onClick(View view) {
-        /*
-        1. checks to see if spot is blank or not.
-        2. if blank,
-            1.put selected piece on board.
-            2.check if winCondition
-                1. if win condition, lock board and display current turn as winner
-                2. If false, check to see if board is complete.
-                    1. if false, change turns.
-                    2. if true, display draw as the win.
-         3. if not blank, give toast saying that position has already been taken.
-         */
         ImageButton button = (ImageButton) view;
         if(button.getTag().equals("0")){
             if(xSwitch.isChecked()){
@@ -185,6 +174,14 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
                 playerTurn.setText("Player 2 Wins");
             }
         }
+        else if(checkDrawCondition()){
+            for(int i = 0; i < 3; i++){
+                for(int j = 0; j < 3; j++){
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(this);
+                    playerTurn.setText("Draw");
+                }
+            }
+        }
         else{
             player1 = !player1;
             if(player1) {
@@ -195,6 +192,18 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
             }
         }
 
+    }
+
+    private boolean checkDrawCondition(){
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(gameBoard.getImageButtonArray()[i][j].getTag().equals("0")) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     @Override
