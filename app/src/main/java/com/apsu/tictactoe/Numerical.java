@@ -18,6 +18,8 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
 
     private GameBoard gameBoard;
     private TextView playerTurn;
+    private String oddtag;
+    private String evenTag;
     private String tag;
     private boolean player1;
     private ArrayList<String> number = new ArrayList<>();
@@ -47,6 +49,8 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
             }
         }
         tag = "1";
+        oddtag = "1";
+        evenTag = "2";
         player1 = true;
         oddPlayerRG = findViewById(R.id.oddPlayerRG);
         oddPlayerRG.setOnCheckedChangeListener(this);
@@ -128,28 +132,28 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
             button.setImageResource((R.drawable.one));
         }
         else if(tag.equals("2")){
-            button.setImageResource((R.drawable.one));
+            button.setImageResource((R.drawable.two));
         }
         else if(tag.equals("3")){
-            button.setImageResource((R.drawable.one));
+            button.setImageResource((R.drawable.three));
         }
         else if(tag.equals("4")){
-            button.setImageResource((R.drawable.one));
+            button.setImageResource((R.drawable.four));
         }
         else if(tag.equals("5")){
-            button.setImageResource((R.drawable.one));
+            button.setImageResource((R.drawable.five));
         }
         else if(tag.equals("6")){
-            button.setImageResource((R.drawable.one));
+            button.setImageResource((R.drawable.six));
         }
         else if(tag.equals("7")){
-            button.setImageResource((R.drawable.one));
+            button.setImageResource((R.drawable.seven));
         }
         else if(tag.equals("8")){
-            button.setImageResource((R.drawable.one));
+            button.setImageResource((R.drawable.eight));
         }
         else if(tag.equals("9")){
-            button.setImageResource((R.drawable.one));
+            button.setImageResource((R.drawable.nine));
         }
 
         button.setTag(tag);
@@ -188,9 +192,11 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
             player1 = !player1;
             if(player1) {
                 playerTurn.setText("Player 1 Turn");
+                tag = oddtag;
             }
             else{
                 playerTurn.setText("Player 2 Turn");
+                tag = evenTag;
             }
         }
 
@@ -200,34 +206,34 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         if(radioGroup == oddPlayerRG){
             if(i == 0){
-                tag = "1";
+                oddtag = "1";
             }
             else if(i == 1){
-                tag = "3";
+                oddtag = "3";
             }
             else if(i == 2){
-                tag = "5";
+                oddtag = "5";
             }
             else if(i == 3){
-                tag = "7";
+                oddtag = "7";
             }
             else if(i == 4){
-                tag = "9";
+                oddtag = "9";
             }
 
         }
         else if(radioGroup == evenPlayerRG){
             if(i == 0){
-                tag = "2";
+                evenTag = "2";
             }
             else if(i == 1){
-                tag = "4";
+                evenTag = "4";
             }
             else if(i == 2){
-                tag = "6";
+                evenTag = "6";
             }
             else if(i == 3){
-                tag = "8";
+                evenTag = "8";
             }
         }
 
