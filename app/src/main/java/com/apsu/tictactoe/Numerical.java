@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -122,41 +123,76 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
         return false;
     }
 
-    public void setPicture(String tag, int x, int y){
+    public void setPicture(String tag, ImageButton button){
         if(tag.equals("1")){
-            gameBoard.setDrawable(x, y, getDrawable(R.drawable.one));
+            button.setImageResource((R.drawable.one));
         }
         else if(tag.equals("2")){
-            gameBoard.setDrawable(x, y, getDrawable(R.drawable.two));
+            button.setImageResource((R.drawable.one));
         }
         else if(tag.equals("3")){
-            gameBoard.setDrawable(x, y, getDrawable(R.drawable.three));
+            button.setImageResource((R.drawable.one));
         }
         else if(tag.equals("4")){
-            gameBoard.setDrawable(x, y, getDrawable(R.drawable.four));
+            button.setImageResource((R.drawable.one));
         }
         else if(tag.equals("5")){
-            gameBoard.setDrawable(x, y, getDrawable(R.drawable.five));
+            button.setImageResource((R.drawable.one));
         }
         else if(tag.equals("6")){
-            gameBoard.setDrawable(x, y, getDrawable(R.drawable.six));
+            button.setImageResource((R.drawable.one));
         }
         else if(tag.equals("7")){
-            gameBoard.setDrawable(x, y, getDrawable(R.drawable.seven));
+            button.setImageResource((R.drawable.one));
         }
         else if(tag.equals("8")){
-            gameBoard.setDrawable(x, y, getDrawable(R.drawable.eight));
+            button.setImageResource((R.drawable.one));
         }
         else if(tag.equals("9")){
-            gameBoard.setDrawable(x, y, getDrawable(R.drawable.nine));
+            button.setImageResource((R.drawable.one));
         }
 
-        gameBoard.getImageButtonArray()[x][y].setTag(tag);
+        button.setTag(tag);
     }
 
 
     @Override
     public void onClick(View v) {
+        ImageButton button = (ImageButton) v;
+        if(button.getTag().equals("0")){
+            if(playerCanPlay(tag) && canBePlaced(tag)){
+                setPicture(tag, button);
+            }
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Position Already Selected", Toast.LENGTH_SHORT).show();
+        }
+
+        if(checkWinCondition()){
+            for(int i = 0; i < 3; i++){
+                for(int j = 0; j < 3; j++){
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
+                }
+            }
+
+            if(player1){
+                playerTurn.setText("Player 1 Wins");
+            }
+            else{
+                playerTurn.setText("Player 2 Wins");
+            }
+
+            // else if check draw condition
+        }
+        else{
+            player1 = !player1;
+            if(player1) {
+                playerTurn.setText("Player 1 Turn");
+            }
+            else{
+                playerTurn.setText("Player 2 Turn");
+            }
+        }
 
     }
 
