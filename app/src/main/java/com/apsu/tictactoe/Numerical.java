@@ -2,7 +2,9 @@ package com.apsu.tictactoe;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -11,13 +13,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
 
-public class Numerical extends AppCompatActivity implements View.OnClickListener {
+public class Numerical extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
     private GameBoard gameBoard;
     private TextView playerTurn;
     private String tag;
     private boolean player1;
     private ArrayList<String> number = new ArrayList<>();
+    private RadioGroup oddPlayerRG;
+    private RadioGroup evenPlayerRG;
 
     /* Win Condition
         1. Player 1 plays odd numbers, Player 2 plays even numbers (numbers 1-9). Each number can only be played once.
@@ -43,6 +47,10 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
         }
         tag = "1";
         player1 = true;
+        oddPlayerRG = findViewById(R.id.oddPlayerRG);
+        oddPlayerRG.setOnCheckedChangeListener(this);
+        evenPlayerRG = findViewById(R.id.evenPlayerRG);
+        evenPlayerRG.setOnCheckedChangeListener(this);
     }
 
     // Checks if win condition will be met.
@@ -56,6 +64,19 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
          */
 
         return false;
+    }
+
+    public boolean addNums(int a, int b, int c){
+        if(a == 0 || b == 0 || c == 0){
+            return false;
+        }
+
+        if(a+b+c == 15){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public boolean canBePlaced(String tag){
@@ -101,9 +122,78 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
         return false;
     }
 
+    public void setPicture(String tag, int x, int y){
+        if(tag.equals("1")){
+            gameBoard.setDrawable(x, y, getDrawable(R.drawable.one));
+        }
+        else if(tag.equals("2")){
+            gameBoard.setDrawable(x, y, getDrawable(R.drawable.two));
+        }
+        else if(tag.equals("3")){
+            gameBoard.setDrawable(x, y, getDrawable(R.drawable.three));
+        }
+        else if(tag.equals("4")){
+            gameBoard.setDrawable(x, y, getDrawable(R.drawable.four));
+        }
+        else if(tag.equals("5")){
+            gameBoard.setDrawable(x, y, getDrawable(R.drawable.five));
+        }
+        else if(tag.equals("6")){
+            gameBoard.setDrawable(x, y, getDrawable(R.drawable.six));
+        }
+        else if(tag.equals("7")){
+            gameBoard.setDrawable(x, y, getDrawable(R.drawable.seven));
+        }
+        else if(tag.equals("8")){
+            gameBoard.setDrawable(x, y, getDrawable(R.drawable.eight));
+        }
+        else if(tag.equals("9")){
+            gameBoard.setDrawable(x, y, getDrawable(R.drawable.nine));
+        }
+
+        gameBoard.getImageButtonArray()[x][y].setTag(tag);
+    }
+
 
     @Override
     public void onClick(View v) {
+
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        if(radioGroup == oddPlayerRG){
+            if(i == 0){
+                tag = "1";
+            }
+            else if(i == 1){
+                tag = "3";
+            }
+            else if(i == 2){
+                tag = "5";
+            }
+            else if(i == 3){
+                tag = "7";
+            }
+            else if(i == 4){
+                tag = "9";
+            }
+
+        }
+        else if(radioGroup == evenPlayerRG){
+            if(i == 0){
+                tag = "2";
+            }
+            else if(i == 1){
+                tag = "4";
+            }
+            else if(i == 2){
+                tag = "6";
+            }
+            else if(i == 3){
+                tag = "8";
+            }
+        }
 
     }
 }
