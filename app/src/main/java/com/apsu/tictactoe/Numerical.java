@@ -67,6 +67,25 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
         return false;
     }
 
+    public boolean playerCanPlay(String tag){
+        if(player1){
+            if(tag.equals("1") || tag.equals("3") || tag.equals("5") || tag.equals("7") || tag.equals("9")){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            if(tag.equals("2") || tag.equals("4") || tag.equals("6") || tag.equals("8")){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+
     public void removeNum(String tag){
         for(int i = 0; i < number.size(); i++){
             if(number.get(i).equals(tag)) {
