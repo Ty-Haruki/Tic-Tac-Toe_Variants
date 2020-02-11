@@ -26,12 +26,12 @@ import java.util.Scanner;
 
 public class Notakto extends AppCompatActivity implements View.OnClickListener  {
 
-    TextView tv;
-    int no_of_gameboards;
-    int playerTurn;
-    GameBoard[] gameBoards;
-    ImageButton ibs[][];
-    int ibid = 0;
+    private TextView tv;
+    private int no_of_gameboards;
+    private int playerTurn;
+    private GameBoard[] gameBoards;
+    private ImageButton ibs[][];
+    private int ibid = 0;
 
     // Save Progress on App Close
     @Override
@@ -44,7 +44,12 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
                 BufferedWriter bw = new BufferedWriter(osw);
                 PrintWriter pw = new PrintWriter(bw);
 
+                // Print Number of Gameboards
                 pw.println(no_of_gameboards);
+
+                // Print Player Turn
+                pw.println(playerTurn);
+
                 // Print Saved Locations of Xs
                 ibid = 0;
 
@@ -106,6 +111,14 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
 
                 // Recreate Saved Boards
                 no_of_gameboards = Integer.parseInt(scanner.next());
+                playerTurn = Integer.parseInt(scanner.next());
+                Log.i("Player Turn", String.valueOf(playerTurn));
+
+                tv = findViewById(R.id.current_player);
+                if (playerTurn == 1) {
+                    tv.setText(R.string.p2_turn);
+                }
+
                 ArrayList<Integer> savedBtns = new ArrayList<>();
                 while (scanner.hasNext()) {
                     int btn = Integer.parseInt(scanner.next());
@@ -124,6 +137,7 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
     }
 
     private void loadGameBoard(LinearLayout layout, ArrayList<Integer> savedBtns) {
+        int index = 0;
         for (int i = 0; i < no_of_gameboards; i++) {
             ibs = new ImageButton[3][3];
             gameBoards[i] = new GameBoard(this, layout);
@@ -133,9 +147,11 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
                     int id = ((i + 1) * 100) + ibid;
                     // Creates unique button ids (100, 201, 302, 403, etc)
                     ibs[j][k].setId(id);
-                    for (int l = 0; l < savedBtns.size(); l++) {
+                    Log.i("ID", String.valueOf(ibs[j][k].getId()));
+
+                    if (savedBtns.size() > 0) {
                         // Compare new btn id to saved btn ids
-                        if (id != savedBtns.get(l)) {
+                        if (ibs[j][k].getId() != savedBtns.get(index)) {
                             // New Buttons and Activate Clicks
                             ibs[j][k].setTag("0");
                             ibs[j][k].setOnClickListener(this);
@@ -143,8 +159,13 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
                             // Set Tags Again and Deactivate Clicks
                             ibs[j][k].setTag("1");
                             ibs[j][k].setImageResource(R.drawable.x);
+                            ibs[j][k].setOnClickListener(null);
+                            if (index < (savedBtns.size() - 1)) {
+                                index++;
+                            }
                         }
                     }
+
                     ibid++;
                     if (ibid == 9) {
                         ibid = 0;
