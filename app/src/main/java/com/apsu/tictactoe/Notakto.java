@@ -1,6 +1,8 @@
 package com.apsu.tictactoe;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +29,7 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
     private ImageButton ibs[][];
     private int ibid = 0;
     private int activeGameboards;
+    private int choice = 0;
 
     // Save Progress on App Close
     @Override
@@ -85,6 +88,25 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        File save = new File(getFilesDir(), "notakto_save.txt");
+        if (save.exists()) {
+            // Create AlertDialog to Inform user of Loaded Game
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Saved Game");
+            builder.setMessage("A current save already exists. It has been loaded instead.");
+
+            // Setup builder for closing
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int choice) {
+                    // Dismiss Dialog
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+
         File f = getFileStreamPath("notakto_save.txt");
         playerTurn = 0;
         setContentView(R.layout.notakto_layout);

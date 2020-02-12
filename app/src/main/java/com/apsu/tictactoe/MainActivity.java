@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (view.getId() == R.id.play_game3) {
 
             // Create AlertDialog to get no_of_gameboards
-            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Number of Boards");
             builder.setSingleChoiceItems(R.array.no_of_boards, choice, null);
 

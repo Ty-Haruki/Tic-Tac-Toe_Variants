@@ -6,10 +6,13 @@
 
     <string name="NOTAKTO">Notakto is a tic-tac-toe variant, also known as neutral or impartial tic-tac-toe. The game is a combination of the games tic-tac-toe and Nim, played across one or several boards with both of the players playing the same piece (an "X" or cross). The game ends when all the boards contain a three-in-a-row of Xs, at which point the player to have made the last move loses the game. However, in this game, unlike tic-tac-toe, there will always be a player who wins any game of Notakto.\n
         Notakto is an impartial game, where the allowable moves depend only on the state of the game and not on which player is taking their turn. When played across multiple boards it is a disjunctive game. The game is attributed to professor and backgammon player Bob Koca, who is said to have invented the game in 2010, when his five-year-old nephew suggested playing a game of tic-tac-toe with both players as "X".</string>
+
     <string name="p2_turn">Player 2\'s Turn</string>
     <string name="p1_turn">Player 1\'s Turn</string>
+
     <string name="p2_win">Player 2 Wins</string>
     <string name="p1_win">Player 1 Wins</string>
+
     <string-array name="no_of_boards">
         <item>1</item>
         <item>2</item>
