@@ -6,18 +6,13 @@ Tanner Jones
 package com.apsu.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -83,14 +78,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dialog.show();
 
         } else if (view.getId() == R.id.info_game1) {
-            // Create Dialog for Game Information
-            infoDialog("Game 1", R.string.game1_info);
+            infoDialog("Numerical", R.string.NUMERICAL);
+
         } else if (view.getId() == R.id.info_game2) {
-            // Create Dialog for Game Information
-            infoDialog("Game 2", R.string.game2_info);
+            infoDialog("Wild", R.string.WILD);
+
         } else {
-            // Create Dialog for Game Information
-            infoDialog("Game 3", R.string.game3_info);
+            infoDialog("Notakto", R.string.NOTAKTO);
         }
     }
 
