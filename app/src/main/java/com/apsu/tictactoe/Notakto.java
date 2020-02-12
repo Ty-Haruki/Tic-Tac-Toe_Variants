@@ -204,6 +204,7 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
                     ibs[j][k].setOnClickListener(null);
                 }
             }
+
             return true;
         }
 
@@ -297,8 +298,9 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
             }
 
             // Delete Saved File
-            File save = new File("notakto_save.txt");
+            File save = new File(getFilesDir(), "notakto_save.txt");
             save.delete();
+
         } else {
             handleTurns();
         }
