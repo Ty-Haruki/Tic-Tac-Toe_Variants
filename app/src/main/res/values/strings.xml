@@ -5,6 +5,8 @@
     <string name="game3_info">Nunc eget lorem dolor sed viverra ipsum. Aliquet sagittis id consectetur purus ut faucibus pulvinar. At augue eget arcu dictum varius duis. Purus in massa tempor nec feugiat nisl pretium fusce. Nec sagittis aliquam malesuada bibendum arcu vitae elementum. Leo vel orci porta non. Cras ornare arcu dui vivamus. Enim nec dui nunc mattis enim. Purus faucibus ornare suspendisse sed nisi. Tincidunt ornare massa eget egestas purus viverra. Luctus accumsan tortor posuere ac ut consequat. Cras ornare arcu dui vivamus arcu felis bibendum. Senectus et netus et malesuada fames ac turpis. Non tellus orci ac auctor augue mauris augue neque.</string>
     <string name="p2_turn">Player 2\'s Turn</string>
     <string name="p1_turn">Player 1\'s Turn</string>
+    <string name="p2_win">Player 2 Wins</string>
+    <string name="p1_win">Player 1 Wins</string>
     <string-array name="no_of_boards">
         <item>1</item>
         <item>2</item>

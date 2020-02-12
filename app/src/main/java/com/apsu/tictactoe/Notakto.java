@@ -2,18 +2,12 @@ package com.apsu.tictactoe;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,12 +26,13 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
     private GameBoard[] gameBoards;
     private ImageButton ibs[][];
     private int ibid = 0;
+    private int activeGameboards;
 
     // Save Progress on App Close
     @Override
     protected void onStop() {
         super.onStop();
-        if (no_of_gameboards > 0) {
+        if (no_of_gameboards > 0 && activeGameboards != 0) {
             try {
                 FileOutputStream fos = openFileOutput("notakto_save.txt", Context.MODE_PRIVATE);
                 OutputStreamWriter osw = new OutputStreamWriter(fos);
@@ -85,7 +80,7 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
 
     /* Win condition
         1. Once all boards are completed, last player to play loses the game.
-     */
+    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +95,7 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
             // Get no_of_gameboards from intent
             Intent intent = getIntent();
             no_of_gameboards = intent.getIntExtra("NO_OF_GAMEBOARDS", 1);
+            activeGameboards = no_of_gameboards;
             gameBoards = new GameBoard[no_of_gameboards];
 
             createGameBoard(layout);
@@ -111,8 +107,8 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
 
                 // Recreate Saved Boards
                 no_of_gameboards = Integer.parseInt(scanner.next());
+                activeGameboards = no_of_gameboards;
                 playerTurn = Integer.parseInt(scanner.next());
-                Log.i("Player Turn", String.valueOf(playerTurn));
 
                 tv = findViewById(R.id.current_player);
                 if (playerTurn == 1) {
@@ -147,7 +143,6 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
                     int id = ((i + 1) * 100) + ibid;
                     // Creates unique button ids (100, 201, 302, 403, etc)
                     ibs[j][k].setId(id);
-                    Log.i("ID", String.valueOf(ibs[j][k].getId()));
 
                     if (savedBtns.size() > 0) {
                         // Compare new btn id to saved btn ids
@@ -166,12 +161,14 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
                         }
                     }
 
+
                     ibid++;
                     if (ibid == 9) {
                         ibid = 0;
                     }
                 }
             }
+            checkWinCondition(ibs);
         }
     }
 
@@ -197,27 +194,114 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
     }
 
     // Checks if win condition will be met.
-    public boolean checkWinCondition(){
-        // Loop through gameboards
-        for (int i = 0; i < no_of_gameboards; i++) {
-            ibs = gameBoards[i].getImageButtonArray();
+    public boolean checkWinCondition(ImageButton[][] ibs) {
 
-            // Loop through imagebuttons of current gameboard
+        // Check if Rows, Cols, or Diags are three in a row
+        if (checkForRow(ibs) || checkForDiag(ibs) || checkForCol(ibs)) {
+            activeGameboards--;
             for (int j = 0; j < 3; j++) {
                 for (int k = 0; k < 3; k++) {
-
+                    ibs[j][k].setOnClickListener(null);
                 }
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean checkForRow(ImageButton[][] ibs){
+        int count = 0;
+
+        // Check Rows
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(ibs[i][j].getTag().equals("1")){
+                    count++;
+                }
+            }
+            if(count >= 3){
+                return true;
+            }
+            else{
+                count = 0;
             }
         }
 
         return false;
     }
 
+    private boolean checkForCol(ImageButton[][] ibs){
+        int count = 0;
+
+        // Check Cols
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(ibs[j][i].getTag().equals("1")){
+                    count++;
+                }
+            }
+            if(count >= 3){
+                return true;
+            }
+            else{
+                count = 0;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean checkForDiag(ImageButton[][] ibs){
+        int count = 0;
+
+        // left right diag check
+        for(int i = 0; i < 3; i++){
+            if(ibs[i][i].getTag().equals("1")){
+                count++;
+            }
+        }
+        if(count >= 3){
+            return true;
+        }
+        else{
+            count = 0;
+        }
+
+        // right left diag check
+        int j = 2;
+        for(int i = 0; i < 3; i++){
+            if(ibs[i][j].getTag().equals("1")){
+                count++;
+            }
+            j--;
+        }
+
+        if(count >= 3){
+            return true;
+        }
+
+        return false;
+    }
 
     @Override
     public void onClick(View view) {
         handleButton(view);
-        handleTurns();
+
+        // If All Boards are Locked, Game is over
+        if (activeGameboards == 0) {
+            if (playerTurn == 0) {
+                tv.setText(R.string.p2_win);
+            } else {
+                tv.setText(R.string.p1_win);
+            }
+
+            // Delete Saved File
+            File save = new File("notakto_save.txt");
+            save.delete();
+        } else {
+            handleTurns();
+        }
     }
 
     private void handleTurns() {
@@ -248,7 +332,7 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
                         ibs[j][k].setImageResource(R.drawable.x);
                         ibs[j][k].setTag("1");
                         ibs[j][k].setOnClickListener(null);
-                        checkWinCondition();
+                        checkWinCondition(ibs);
                     }
                     ibid++;
                     if (ibid == 9) {

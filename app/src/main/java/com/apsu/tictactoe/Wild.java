@@ -98,7 +98,7 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
 
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
-                if(gameBoard.getImageButtonArray()[i][j].getTag().equals(tag)){
+                if(gameBoard.getImageButtonArray()[j][i].getTag().equals(tag)){
                     count++;
                 }
             }
