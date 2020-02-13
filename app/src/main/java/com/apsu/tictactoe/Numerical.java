@@ -178,6 +178,19 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
         return false;
     }
 
+    private boolean checkForDraw(){
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(gameBoard.getImageButtonArray()[i][j].getTag().toString().equals("0")){
+                    return false;
+                }
+            }
+        }
+
+
+        return true;
+    }
+
     public void setPicture(String tag, ImageButton button){
         if(tag.equals("1")){
             button.setImageResource((R.drawable.one));
@@ -238,8 +251,14 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
                     else{
                         playerTurn.setText("Player 2 Wins");
                     }
-
-                    // else if check draw condition
+                }
+                else if(checkForDraw()){
+                    for(int i = 0; i < 3; i++){
+                        for(int j = 0; j < 3; j++){
+                            gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
+                        }
+                    }
+                    playerTurn.setText("Draw!");
                 }
                 else{
                     player1 = !player1;
