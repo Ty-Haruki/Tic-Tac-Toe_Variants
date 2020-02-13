@@ -127,6 +127,26 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
         return false;
     }
 
+    private boolean checkForRow(){
+        int count = 0;
+
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+
+                }
+            }
+
+        return false;
+    }
+
+    private boolean checkCol(){
+        return true;
+    }
+
+    private boolean checkDiag(){
+        return true;
+    }
+
     public void setPicture(String tag, ImageButton button){
         if(tag.equals("1")){
             button.setImageResource((R.drawable.one));
@@ -168,6 +188,7 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
                 setPicture(tag, button);
             }
         }
+
         else{
             Toast.makeText(getApplicationContext(), "Position Already Selected", Toast.LENGTH_SHORT).show();
         }
@@ -235,6 +256,13 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
             else if(i == 3){
                 evenTag = "8";
             }
+        }
+
+        if(player1){
+            tag = oddtag;
+        }
+        else{
+            tag = evenTag;
         }
 
     }
