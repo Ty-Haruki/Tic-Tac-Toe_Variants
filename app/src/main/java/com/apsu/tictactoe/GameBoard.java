@@ -42,7 +42,6 @@ public class GameBoard {
                 ));
                 ibs[i][j].getLayoutParams().height = 150;
                 ibs[i][j].getLayoutParams().width = 150;
-                ibs[i][j].setId(ibid);
 
                 // Add Buttons to Row
                 row.addView(ibs[i][j]);
