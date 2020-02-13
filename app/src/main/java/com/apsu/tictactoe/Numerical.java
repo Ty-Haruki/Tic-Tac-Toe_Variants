@@ -18,7 +18,7 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
 
     private GameBoard gameBoard;
     private TextView playerTurn;
-    private String oddtag;
+    private String oddTag;
     private String evenTag;
     private String tag;
     private boolean player1;
@@ -49,7 +49,7 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
             }
         }
         tag = "1";
-        oddtag = "1";
+        oddTag = "1";
         evenTag = "2";
         player1 = true;
         oddPlayerRG = findViewById(R.id.oddPlayerRG);
@@ -60,13 +60,9 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
 
     // Checks if win condition will be met.
     public boolean checkWinCondition(){
-        /*
-            1. Check if each row equals 15
-            2. Check if each column equals 15
-            3. Check if each diagonal equals 15
-            4. If one of those conditions are true, lock board and return true
-            5. If none of those conditions are true, return false
-         */
+        if(checkForRow() || checkForCol() || checkForDiag()){
+            return true;
+        }
 
         return false;
     }
@@ -128,23 +124,58 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
     }
 
     private boolean checkForRow(){
-        int count = 0;
+        int j = 0;
+        ArrayList<ImageButton> array;
 
         for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 3; j++){
-
-                }
+            array = new ArrayList<>();
+            array.add(gameBoard.getImageButtonArray()[i][j]);
+            array.add(gameBoard.getImageButtonArray()[i][j+1]);
+            array.add(gameBoard.getImageButtonArray()[i][j+2]);
+            if(addNums(Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(0).getTag().toString()))){
+                return true;
             }
+        }
 
         return false;
     }
 
-    private boolean checkCol(){
-        return true;
+    private boolean checkForCol(){
+        int j = 0;
+        ArrayList<ImageButton> array;
+
+        for(int i = 0; i < 3; i++){
+            array = new ArrayList<>();
+            array.add(gameBoard.getImageButtonArray()[j][i]);
+            array.add(gameBoard.getImageButtonArray()[j+1][i]);
+            array.add(gameBoard.getImageButtonArray()[j+2][i]);
+            if(addNums(Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(0).getTag().toString()))){
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    private boolean checkDiag(){
-        return true;
+    private boolean checkForDiag(){
+
+        ArrayList<ImageButton> array;
+            array = new ArrayList<>();
+            array.add(gameBoard.getImageButtonArray()[0][0]);
+            array.add(gameBoard.getImageButtonArray()[1][1]);
+            array.add(gameBoard.getImageButtonArray()[2][2]);
+            if(addNums(Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(0).getTag().toString()))){
+                return true;
+            }
+
+        array = new ArrayList<>();
+        array.add(gameBoard.getImageButtonArray()[0][2]);
+        array.add(gameBoard.getImageButtonArray()[1][1]);
+        array.add(gameBoard.getImageButtonArray()[2][0]);
+        if(addNums(Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(0).getTag().toString()))){
+            return true;
+        }
+        return false;
     }
 
     public void setPicture(String tag, ImageButton button){
@@ -182,64 +213,74 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        if(player1){
+            tag = oddTag;
+        }
+        else{
+            tag = evenTag;
+        }
         ImageButton button = (ImageButton) v;
         if(button.getTag().equals("0")){
             if(playerCanPlay(tag) && canBePlaced(tag)){
                 setPicture(tag, button);
+                removeNum(tag);
+
+                if(checkWinCondition()){
+                    for(int i = 0; i < 3; i++){
+                        for(int j = 0; j < 3; j++){
+                            gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
+                        }
+                    }
+
+                    if(player1){
+                        playerTurn.setText("Player 1 Wins");
+                    }
+                    else{
+                        playerTurn.setText("Player 2 Wins");
+                    }
+
+                    // else if check draw condition
+                }
+                else{
+                    player1 = !player1;
+                    if(player1) {
+                        playerTurn.setText("Player 1 Turn");
+                        tag = oddTag;
+                    }
+                    else{
+                        playerTurn.setText("Player 2 Turn");
+                        tag = evenTag;
+                    }
+                }
             }
+        }
+
+        if(!canBePlaced(tag)){
+            Toast.makeText(getApplicationContext(), "Number already used", Toast.LENGTH_SHORT).show();
         }
 
         else{
             Toast.makeText(getApplicationContext(), "Position Already Selected", Toast.LENGTH_SHORT).show();
         }
-
-        if(checkWinCondition()){
-            for(int i = 0; i < 3; i++){
-                for(int j = 0; j < 3; j++){
-                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
-                }
-            }
-
-            if(player1){
-                playerTurn.setText("Player 1 Wins");
-            }
-            else{
-                playerTurn.setText("Player 2 Wins");
-            }
-
-            // else if check draw condition
-        }
-        else{
-            player1 = !player1;
-            if(player1) {
-                playerTurn.setText("Player 1 Turn");
-                tag = oddtag;
-            }
-            else{
-                playerTurn.setText("Player 2 Turn");
-                tag = evenTag;
-            }
-        }
-
     }
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         if(radioGroup == oddPlayerRG){
             if(i == 0){
-                oddtag = "1";
+                oddTag = "1";
             }
             else if(i == 1){
-                oddtag = "3";
+                oddTag = "3";
             }
             else if(i == 2){
-                oddtag = "5";
+                oddTag = "5";
             }
             else if(i == 3){
-                oddtag = "7";
+                oddTag = "7";
             }
             else if(i == 4){
-                oddtag = "9";
+                oddTag = "9";
             }
 
         }
@@ -259,7 +300,7 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
         }
 
         if(player1){
-            tag = oddtag;
+            tag = oddTag;
         }
         else{
             tag = evenTag;
