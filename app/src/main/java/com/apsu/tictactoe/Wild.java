@@ -1,3 +1,8 @@
+/*
+Ethan McCrary
+Tanner Jones
+ */
+
 package com.apsu.tictactoe;
 
 import android.graphics.drawable.Drawable;
