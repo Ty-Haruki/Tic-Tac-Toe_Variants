@@ -1,6 +1,7 @@
 package com.apsu.tictactoe;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -72,6 +73,9 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
             return false;
         }
 
+        int sum = a + b + c;
+        Log.i("add", a+"+"+b+"+"+c+"= "+sum+".");
+
         if(a+b+c == 15){
             return true;
         }
@@ -132,7 +136,7 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
             array.add(gameBoard.getImageButtonArray()[i][j]);
             array.add(gameBoard.getImageButtonArray()[i][j+1]);
             array.add(gameBoard.getImageButtonArray()[i][j+2]);
-            if(addNums(Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(0).getTag().toString()))){
+            if(addNums(Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(1).getTag().toString()), Integer.parseInt(array.get(2).getTag().toString()))){
                 return true;
             }
         }
@@ -149,7 +153,7 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
             array.add(gameBoard.getImageButtonArray()[j][i]);
             array.add(gameBoard.getImageButtonArray()[j+1][i]);
             array.add(gameBoard.getImageButtonArray()[j+2][i]);
-            if(addNums(Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(0).getTag().toString()))){
+            if(addNums(Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(1).getTag().toString()), Integer.parseInt(array.get(2).getTag().toString()))){
                 return true;
             }
         }
@@ -164,7 +168,7 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
             array.add(gameBoard.getImageButtonArray()[0][0]);
             array.add(gameBoard.getImageButtonArray()[1][1]);
             array.add(gameBoard.getImageButtonArray()[2][2]);
-            if(addNums(Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(0).getTag().toString()))){
+            if(addNums(Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(1).getTag().toString()), Integer.parseInt(array.get(2).getTag().toString()))){
                 return true;
             }
 
@@ -172,7 +176,7 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
         array.add(gameBoard.getImageButtonArray()[0][2]);
         array.add(gameBoard.getImageButtonArray()[1][1]);
         array.add(gameBoard.getImageButtonArray()[2][0]);
-        if(addNums(Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(0).getTag().toString()))){
+        if(addNums(Integer.parseInt(array.get(0).getTag().toString()), Integer.parseInt(array.get(1).getTag().toString()), Integer.parseInt(array.get(2).getTag().toString()))){
             return true;
         }
         return false;
@@ -272,10 +276,9 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
                     }
                 }
             }
-        }
-
-        if(!canBePlaced(tag)){
-            Toast.makeText(getApplicationContext(), "Number already used", Toast.LENGTH_SHORT).show();
+            else if(!canBePlaced(tag)){
+                Toast.makeText(getApplicationContext(), "Number already used", Toast.LENGTH_SHORT).show();
+            }
         }
 
         else{
@@ -286,34 +289,34 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         if(radioGroup == oddPlayerRG){
-            if(i == 0){
+            if(radioGroup.getCheckedRadioButtonId() == R.id.radioButton1){
                 oddTag = "1";
             }
-            else if(i == 1){
+            else if(radioGroup.getCheckedRadioButtonId() == R.id.radioButton3){
                 oddTag = "3";
             }
-            else if(i == 2){
+            else if(radioGroup.getCheckedRadioButtonId() == R.id.radioButton5){
                 oddTag = "5";
             }
-            else if(i == 3){
+            else if(radioGroup.getCheckedRadioButtonId() == R.id.radioButton7){
                 oddTag = "7";
             }
-            else if(i == 4){
+            else if(radioGroup.getCheckedRadioButtonId() == R.id.radioButton9){
                 oddTag = "9";
             }
 
         }
         else if(radioGroup == evenPlayerRG){
-            if(i == 0){
+            if(radioGroup.getCheckedRadioButtonId() == R.id.radioButton2){
                 evenTag = "2";
             }
-            else if(i == 1){
+            else if(radioGroup.getCheckedRadioButtonId() == R.id.radioButton4){
                 evenTag = "4";
             }
-            else if(i == 2){
+            else if(radioGroup.getCheckedRadioButtonId() == R.id.radioButton6){
                 evenTag = "6";
             }
-            else if(i == 3){
+            else if(radioGroup.getCheckedRadioButtonId() == R.id.radioButton8){
                 evenTag = "8";
             }
         }
