@@ -32,11 +32,7 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
     private RadioGroup oddPlayerRG;
     private RadioGroup evenPlayerRG;
 
-    /* Win Condition
-        1. Player 1 plays odd numbers, Player 2 plays even numbers (numbers 1-9). Each number can only be played once.
-        2. If the sum of three numbers in a row = 15, the player who played last wins.
-        3. If there is no sum of 15 by the end of the game, game ends in draw.
-     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,12 +121,6 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
         }
     }
 
-    public boolean checkLength(){
-        if(number.size() == 0){
-            return true;
-        }
-        return false;
-    }
 
     private boolean checkForRow(){
         int j = 0;
