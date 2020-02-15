@@ -5,6 +5,9 @@ Tanner Jones
 
 package com.apsu.tictactoe;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +21,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Wild extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -35,27 +48,117 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
     private CompoundButton xSwitch;
     private CompoundButton oSwitch;
     private TextView playerTurn;
+    Boolean end = false;
+
+    // Save Progress on App Close
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (!end) {
+            try {
+                FileOutputStream fos = openFileOutput("wild_save.txt", Context.MODE_PRIVATE);
+                OutputStreamWriter osw = new OutputStreamWriter(fos);
+                BufferedWriter bw = new BufferedWriter(osw);
+                PrintWriter pw = new PrintWriter(bw);
+
+                // Print Player Turn
+                pw.println(player1);
+
+
+                // Loop through imagebuttons of current gameboard
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        pw.println(gameBoard.getImageButtonArray()[i][j].getTag());
+                    }
+                }
+                pw.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.wild_layout);
         player1 = true;
         LinearLayout layout = findViewById(R.id.wild_layout);
-        gameBoard = new GameBoard(this, layout);
         xSwitch = findViewById(R.id.wildXSwitch);
         xSwitch.setOnCheckedChangeListener(this);
         oSwitch = findViewById(R.id.wildOSwitch);
         oSwitch.setOnCheckedChangeListener(this);
         playerTurn = findViewById(R.id.wildPlayerTurn);
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 3; j++){
-                gameBoard.setDrawable(i, j, getDrawable(R.drawable.blank));
-                gameBoard.getImageButtonArray()[i][j].setTag("0");
-                gameBoard.getImageButtonArray()[i][j].setOnClickListener(this);
+        File f = getFileStreamPath("wild_save.txt");
+
+
+        if (f.length() == 0) {
+            gameBoard = new GameBoard(this, layout);
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    gameBoard.setDrawable(i, j, getDrawable(R.drawable.blank));
+                    gameBoard.getImageButtonArray()[i][j].setTag("0");
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(this);
+                }
+            }
+        } else { // Load Save if it Exists
+            try {
+                FileInputStream fis = openFileInput("wild_save.txt");
+                Scanner scanner = new Scanner(fis);
+
+                // Handle Turns
+                if (scanner.next().equals("true")) {
+                    player1 = true;
+                    playerTurn.setText("Player 1 Turn");
+                } else {
+                    player1 = false;
+                    playerTurn.setText("Player 2 Turn");
+                }
+
+                ArrayList<String> savedBtns = new ArrayList<>();
+                while (scanner.hasNext()) {
+                    String tag = scanner.next();
+                    savedBtns.add(tag);
+                }
+                scanner.close();
+
+                loadGameBoard(layout, savedBtns);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
         }
 
+    }
+
+
+
+    private void loadGameBoard(LinearLayout layout, ArrayList<String> savedBtns) {
+        gameBoard = new GameBoard(this, layout);
+        int count = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                // Set Tags for Each Button in savedBtns
+                gameBoard.getImageButtonArray()[i][j].setTag(savedBtns.get(count));
+                count++;
+
+                // Handle Image Resources and onClicks
+                if (gameBoard.getImageButtonArray()[i][j].getTag().equals("0")) {
+                    Log.i("REACHED", i + " , " + j + " = BLANK");
+                    gameBoard.getImageButtonArray()[i][j].setImageResource(R.drawable.blank);
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(this);
+                } else if (gameBoard.getImageButtonArray()[i][j].getTag().equals("1")) {
+                    Log.i("REACHED", i + " , " + j + " = X");
+                    gameBoard.getImageButtonArray()[i][j].setImageResource(R.drawable.x);
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
+                } else {
+                    Log.i("REACHED", i + " , " + j + " = O");
+                    gameBoard.getImageButtonArray()[i][j].setImageResource(R.drawable.circle);
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
+                }
+            }
+        }
     }
 
     // Checks if win condition will be met.
@@ -64,7 +167,6 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
             1. Check if there are 3 O's or 3 X's in each row, col, or diagonal
             2. If condition is true, return true otherwise, return false.
          */
-        int count = 0;
         if(checkForRow("1") || checkForRow("2")){
             return true;
         }
@@ -172,6 +274,10 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
                     gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
                 }
             }
+            // Delete Saved File
+            File save = new File(getFilesDir(), "wild_save.txt");
+            save.delete();
+            end = true;
             if(player1) {
                 playerTurn.setText("Player 1 Wins");
             }
@@ -182,10 +288,14 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
         else if(checkDrawCondition()){
             for(int i = 0; i < 3; i++){
                 for(int j = 0; j < 3; j++){
-                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(this);
-                    playerTurn.setText("Draw");
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
                 }
             }
+            // Delete Saved File
+            File save = new File(getFilesDir(), "wild_save.txt");
+            save.delete();
+            end = true;
+            playerTurn.setText("Draw");
         }
         else{
             player1 = !player1;

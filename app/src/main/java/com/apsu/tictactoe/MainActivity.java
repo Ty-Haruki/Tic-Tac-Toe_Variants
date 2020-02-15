@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     int no_of_gameboards;
@@ -43,39 +45,100 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (view.getId() == R.id.play_game1) {
             // Start Numerical Game
-            Intent intent = new Intent(getApplicationContext(), Numerical.class);
-            startActivity(intent);
+
+            File save = new File(getFilesDir(), "numerical_save.txt");
+            if (save.exists()) {
+                // Create AlertDialog to Inform user of Loaded Game
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Saved Game");
+                builder.setMessage("A current save already exists. It has been loaded.");
+
+                // Setup builder for closing
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int choice) {
+                        Intent intent = new Intent(getApplicationContext(), Numerical.class);
+                        startActivity(intent);
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            } else {
+                Intent intent = new Intent(getApplicationContext(), Numerical.class);
+                startActivity(intent);
+            }
         } else if (view.getId() == R.id.play_game2) {
             // Start Wild Game
-            Intent intent = new Intent(getApplicationContext(), Wild.class);
-            startActivity(intent);
+
+            File save = new File(getFilesDir(), "wild_save.txt");
+            if (save.exists()) {
+                // Create AlertDialog to Inform user of Loaded Game
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Saved Game");
+                builder.setMessage("A current save already exists. It has been loaded.");
+
+                // Setup builder for closing
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int choice) {
+                        Intent intent = new Intent(getApplicationContext(), Wild.class);
+                        startActivity(intent);
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            } else {
+                Intent intent = new Intent(getApplicationContext(), Wild.class);
+                startActivity(intent);
+            }
+
         } else if (view.getId() == R.id.play_game3) {
 
-            // Create AlertDialog to get no_of_gameboards
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Number of Boards");
-            builder.setSingleChoiceItems(R.array.no_of_boards, choice, null);
+            File save = new File(getFilesDir(), "notakto_save.txt");
+            if (save.exists()) {
+                // Create AlertDialog to Inform user of Loaded Game
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Saved Game");
+                builder.setMessage("A current save already exists. It has been loaded.");
 
-            // Setup builder for closing and saving data
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int choice) {
-                    // Get Selected Item
-                    ListView listView = ((AlertDialog)dialog).getListView();
-                    Object checkedItem = listView.getAdapter().getItem(
-                            listView.getCheckedItemPosition()
-                    );
+                // Setup builder for closing
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int choice) {
+                        Intent intent = new Intent(getApplicationContext(), Notakto.class);
+                        startActivity(intent);
+                    }
+                });
 
-                    no_of_gameboards = Integer.valueOf((String)checkedItem);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            } else {
 
-                    // Start Notakto Game and pass in no_of_gameboards
-                    Intent intent = new Intent(getApplicationContext(), Notakto.class);
-                    intent.putExtra("NO_OF_GAMEBOARDS", no_of_gameboards);
-                    startActivity(intent);
-                }
-            });
+                // Create AlertDialog to get no_of_gameboards
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Number of Boards");
+                builder.setSingleChoiceItems(R.array.no_of_boards, choice, null);
 
-            AlertDialog dialog = builder.create();
-            dialog.show();
+                // Setup builder for closing and saving data
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int choice) {
+                        // Get Selected Item
+                        ListView listView = ((AlertDialog) dialog).getListView();
+                        Object checkedItem = listView.getAdapter().getItem(
+                                listView.getCheckedItemPosition()
+                        );
+
+                        no_of_gameboards = Integer.valueOf((String) checkedItem);
+
+                        // Start Notakto Game and pass in no_of_gameboards
+                        Intent intent = new Intent(getApplicationContext(), Notakto.class);
+                        intent.putExtra("NO_OF_GAMEBOARDS", no_of_gameboards);
+                        startActivity(intent);
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
 
         } else if (view.getId() == R.id.info_game1) {
             infoDialog("Numerical", R.string.NUMERICAL);
