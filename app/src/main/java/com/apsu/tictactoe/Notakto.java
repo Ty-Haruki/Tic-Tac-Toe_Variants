@@ -32,12 +32,13 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
     private ImageButton ibs[][];
     private int ibid = 0;
     private int activeGameboards;
+    private Boolean end = false;
 
     // Save Progress on App Close
     @Override
     protected void onStop() {
         super.onStop();
-        if (no_of_gameboards > 0 && activeGameboards != 0) {
+        if (!end) {
             try {
                 FileOutputStream fos = openFileOutput("notakto_save.txt", Context.MODE_PRIVATE);
                 OutputStreamWriter osw = new OutputStreamWriter(fos);
@@ -165,6 +166,10 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
                                 index++;
                             }
                         }
+                    } else {
+                        // New Buttons and Activate Clicks
+                        ibs[j][k].setTag("0");
+                        ibs[j][k].setOnClickListener(this);
                     }
 
 
@@ -174,7 +179,9 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
                     }
                 }
             }
-            checkWinCondition(ibs);
+            if (savedBtns.size() > 0) {
+                checkWinCondition(ibs);
+            }
         }
     }
 
@@ -306,6 +313,7 @@ public class Notakto extends AppCompatActivity implements View.OnClickListener  
             // Delete Saved File
             File save = new File(getFilesDir(), "notakto_save.txt");
             save.delete();
+            end = true;
 
         } else {
             handleTurns();
