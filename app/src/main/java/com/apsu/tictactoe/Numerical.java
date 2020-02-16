@@ -102,11 +102,11 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
                 // Handle Turns
                 if (scanner.next().equals("true")) {
                     player1 = true;
-                    playerTurn.setText("Player 1 Turn");
+                    playerTurn.setText(R.string.p1_turn);
                     tag = oddTag;
                 } else {
                     player1 = false;
-                    playerTurn.setText("Player 2 Turn");
+                    playerTurn.setText(R.string.p2_turn);
                     tag = evenTag;
                 }
 
@@ -365,10 +365,10 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
                     }
 
                     if(player1){
-                        playerTurn.setText("Player 1 Wins");
+                        playerTurn.setText(R.string.p1_win);
                     }
                     else{
-                        playerTurn.setText("Player 2 Wins");
+                        playerTurn.setText(R.string.p2_win);
                     }
                     // Delete Saved File
                     File save = new File(getFilesDir(), "numerical_save.txt");
@@ -380,7 +380,7 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
                             gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
                         }
                     }
-                    playerTurn.setText("Draw!");
+                    playerTurn.setText(R.string.draw);
                     // Delete Saved File
                     File save = new File(getFilesDir(), "numerical_save.txt");
                     save.delete();
@@ -388,11 +388,11 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
                 else{
                     player1 = !player1;
                     if(player1) {
-                        playerTurn.setText("Player 1 Turn");
+                        playerTurn.setText(R.string.p1_turn);
                         tag = oddTag;
                     }
                     else{
-                        playerTurn.setText("Player 2 Turn");
+                        playerTurn.setText(R.string.p2_turn);
                         tag = evenTag;
                     }
                 }

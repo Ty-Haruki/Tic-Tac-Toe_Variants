@@ -13,6 +13,8 @@
     <string name="p2_win">Player 2 Wins</string>
     <string name="p1_win">Player 1 Wins</string>
 
+    <string name="draw">Draw!</string>
+
     <string-array name="no_of_boards">
         <item>1</item>
         <item>2</item>

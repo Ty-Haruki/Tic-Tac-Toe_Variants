@@ -103,10 +103,10 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
                 // Handle Turns
                 if (scanner.next().equals("true")) {
                     player1 = true;
-                    playerTurn.setText("Player 1 Turn");
+                    playerTurn.setText(R.string.p1_turn);
                 } else {
                     player1 = false;
-                    playerTurn.setText("Player 2 Turn");
+                    playerTurn.setText(R.string.p2_turn);
                 }
 
                 ArrayList<String> savedBtns = new ArrayList<>();
@@ -266,10 +266,10 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
             save.delete();
             end = true;
             if(player1) {
-                playerTurn.setText("Player 1 Wins");
+                playerTurn.setText(R.string.p1_win);
             }
             else{
-                playerTurn.setText("Player 2 Wins");
+                playerTurn.setText(R.string.p2_win);
             }
         }
         else if(checkDrawCondition()){
@@ -282,15 +282,15 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
             File save = new File(getFilesDir(), "wild_save.txt");
             save.delete();
             end = true;
-            playerTurn.setText("Draw");
+            playerTurn.setText(R.string.draw);
         }
         else{
             player1 = !player1;
             if(player1) {
-                playerTurn.setText("Player 1 Turn");
+                playerTurn.setText(R.string.p1_turn);
             }
             else{
-                playerTurn.setText("Player 2 Turn");
+                playerTurn.setText(R.string.p2_turn);
             }
         }
 
