@@ -5,20 +5,26 @@ Tanner Jones
 
 package com.apsu.tictactoe;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Numerical extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
@@ -31,33 +37,147 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
     private ArrayList<String> number = new ArrayList<>();
     private RadioGroup oddPlayerRG;
     private RadioGroup evenPlayerRG;
+    private Boolean end = false;
 
+    // Save Progress on App Close
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (!end) {
+            try {
+                FileOutputStream fos = openFileOutput("numerical_save.txt", Context.MODE_PRIVATE);
+                OutputStreamWriter osw = new OutputStreamWriter(fos);
+                BufferedWriter bw = new BufferedWriter(osw);
+                PrintWriter pw = new PrintWriter(bw);
+
+                // Print Player Turn
+                pw.println(player1);
+
+                // Loop through imagebuttons of current gameboard
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        pw.println(gameBoard.getImageButtonArray()[i][j].getTag());
+                    }
+                }
+                pw.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.numerical_layout);
         LinearLayout layout = findViewById(R.id.numerical_layout);
-        gameBoard = new GameBoard(this, layout);
         playerTurn = findViewById(R.id.numPlayerTurn);
-        for(int i = 1; i <= 9; i++){
-            number.add(Integer.toString(i));
-        }
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 3; j++){
-                gameBoard.setDrawable(i, j, getDrawable(R.drawable.blank));
-                gameBoard.getImageButtonArray()[i][j].setTag("0");
-                gameBoard.getImageButtonArray()[i][j].setOnClickListener(this);
-            }
-        }
+        File f = getFileStreamPath("numerical_save.txt");
         tag = "1";
         oddTag = "1";
         evenTag = "2";
-        player1 = true;
         oddPlayerRG = findViewById(R.id.oddPlayerRG);
         oddPlayerRG.setOnCheckedChangeListener(this);
         evenPlayerRG = findViewById(R.id.evenPlayerRG);
         evenPlayerRG.setOnCheckedChangeListener(this);
+        for (int i = 1; i <= 9; i++) {
+            number.add(Integer.toString(i));
+        }
+
+        if (f.length() == 0) {
+            gameBoard = new GameBoard(this, layout);
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    gameBoard.setDrawable(i, j, getDrawable(R.drawable.blank));
+                    gameBoard.getImageButtonArray()[i][j].setTag("0");
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(this);
+                }
+            }
+            player1 = true;
+        } else { // Load Save if it Exists
+            try {
+                FileInputStream fis = openFileInput("numerical_save.txt");
+                Scanner scanner = new Scanner(fis);
+
+                // Handle Turns
+                if (scanner.next().equals("true")) {
+                    player1 = true;
+                    playerTurn.setText("Player 1 Turn");
+                    tag = oddTag;
+                } else {
+                    player1 = false;
+                    playerTurn.setText("Player 2 Turn");
+                    tag = evenTag;
+                }
+
+                ArrayList<String> savedBtns = new ArrayList<>();
+                while (scanner.hasNext()) {
+                    String tags = scanner.next();
+                    savedBtns.add(tags);
+                }
+                scanner.close();
+
+                loadGameBoard(layout, savedBtns);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+    private void loadGameBoard(LinearLayout layout, ArrayList<String> savedBtns) {
+        gameBoard = new GameBoard(this, layout);
+        int count = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                // Set Tags for Each Button in savedBtns
+                gameBoard.getImageButtonArray()[i][j].setTag(savedBtns.get(count));
+                count++;
+
+                // Handle Image Resources and onClicks
+                if (gameBoard.getImageButtonArray()[i][j].getTag().equals("0")) {
+                    gameBoard.getImageButtonArray()[i][j].setImageResource(R.drawable.blank);
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(this);
+                } else if (gameBoard.getImageButtonArray()[i][j].getTag().equals("1")) {
+                    gameBoard.getImageButtonArray()[i][j].setImageResource(R.drawable.one);
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
+                    number.remove("1");
+                } else if (gameBoard.getImageButtonArray()[i][j].getTag().equals("2")) {
+                    gameBoard.getImageButtonArray()[i][j].setImageResource(R.drawable.two);
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
+                    number.remove("2");
+                } else if (gameBoard.getImageButtonArray()[i][j].getTag().equals("3")) {
+                    gameBoard.getImageButtonArray()[i][j].setImageResource(R.drawable.three);
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
+                    number.remove("3");
+                } else if (gameBoard.getImageButtonArray()[i][j].getTag().equals("4")) {
+                    gameBoard.getImageButtonArray()[i][j].setImageResource(R.drawable.four);
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
+                    number.remove("4");
+                } else if (gameBoard.getImageButtonArray()[i][j].getTag().equals("5")) {
+                    gameBoard.getImageButtonArray()[i][j].setImageResource(R.drawable.five);
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
+                    number.remove("5");
+                } else if (gameBoard.getImageButtonArray()[i][j].getTag().equals("6")) {
+                    gameBoard.getImageButtonArray()[i][j].setImageResource(R.drawable.six);
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
+                    number.remove("6");
+                } else if (gameBoard.getImageButtonArray()[i][j].getTag().equals("7")) {
+                    gameBoard.getImageButtonArray()[i][j].setImageResource(R.drawable.seven);
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
+                    number.remove("7");
+                } else if (gameBoard.getImageButtonArray()[i][j].getTag().equals("8")) {
+                    gameBoard.getImageButtonArray()[i][j].setImageResource(R.drawable.eight);
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
+                    number.remove("8");
+                } else {
+                    gameBoard.getImageButtonArray()[i][j].setImageResource(R.drawable.nine);
+                    gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
+                    number.remove("9");
+                }
+            }
+        }
     }
 
     // Checks if win condition will be met.
@@ -75,7 +195,6 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
         }
 
         int sum = a + b + c;
-        Log.i("add", a+"+"+b+"+"+c+"= "+sum+".");
 
         if(a+b+c == 15){
             return true;
@@ -186,7 +305,7 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
             }
         }
 
-
+        end = true;
         return true;
     }
 
@@ -242,6 +361,7 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
                         for(int j = 0; j < 3; j++){
                             gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
                         }
+                        end = true;
                     }
 
                     if(player1){
@@ -250,6 +370,9 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
                     else{
                         playerTurn.setText("Player 2 Wins");
                     }
+                    // Delete Saved File
+                    File save = new File(getFilesDir(), "numerical_save.txt");
+                    save.delete();
                 }
                 else if(checkForDraw()){
                     for(int i = 0; i < 3; i++){
@@ -258,6 +381,9 @@ public class Numerical extends AppCompatActivity implements View.OnClickListener
                         }
                     }
                     playerTurn.setText("Draw!");
+                    // Delete Saved File
+                    File save = new File(getFilesDir(), "numerical_save.txt");
+                    save.delete();
                 }
                 else{
                     player1 = !player1;

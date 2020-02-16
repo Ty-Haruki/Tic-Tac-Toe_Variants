@@ -7,7 +7,6 @@ package com.apsu.tictactoe;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -125,8 +124,6 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
 
     }
 
-
-
     private void loadGameBoard(LinearLayout layout, ArrayList<String> savedBtns) {
         gameBoard = new GameBoard(this, layout);
         int count = 0;
@@ -138,15 +135,12 @@ public class Wild extends AppCompatActivity implements View.OnClickListener, Com
 
                 // Handle Image Resources and onClicks
                 if (gameBoard.getImageButtonArray()[i][j].getTag().equals("0")) {
-                    Log.i("REACHED", i + " , " + j + " = BLANK");
                     gameBoard.getImageButtonArray()[i][j].setImageResource(R.drawable.blank);
                     gameBoard.getImageButtonArray()[i][j].setOnClickListener(this);
                 } else if (gameBoard.getImageButtonArray()[i][j].getTag().equals("1")) {
-                    Log.i("REACHED", i + " , " + j + " = X");
                     gameBoard.getImageButtonArray()[i][j].setImageResource(R.drawable.x);
                     gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
                 } else {
-                    Log.i("REACHED", i + " , " + j + " = O");
                     gameBoard.getImageButtonArray()[i][j].setImageResource(R.drawable.circle);
                     gameBoard.getImageButtonArray()[i][j].setOnClickListener(null);
                 }
